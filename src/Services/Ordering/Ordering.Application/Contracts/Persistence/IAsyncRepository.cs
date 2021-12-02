@@ -12,7 +12,7 @@ namespace Ordering.Application.Contracts.Persistence
 	{
 		// get alt metode async
 		Task<IReadOnlyList<T>> GetAllAsync();
-		// get metode, der tager parameters (kan filtrer hvad vi vil have frem) 
+		// get metode, der tager parameters  
 		Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate);
 		// samme måde som - forventer orderby 
 		Task<IReadOnlyList<T>> GetAsync(Expression<Func<T, bool>> predicate = null,
