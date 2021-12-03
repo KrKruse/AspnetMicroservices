@@ -18,3 +18,12 @@ services:
       - catalogdb
     ports:
       - "8000:80"
+
+  orderdb:
+    container_name: orderdb
+    environment:
+        SA_PASSWORD: "Lol12345"
+        ACCEPT_EULA: 'Y'
+    restart: always
+    ports:
+        - "1434:1433"

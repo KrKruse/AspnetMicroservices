@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ordering.Infrastructure.Persistence;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Ordering.API.Extensions;
 
 namespace Ordering.API
 {
@@ -18,7 +23,6 @@ namespace Ordering.API
         {
             CreateHostBuilder(args)
                 .Build()
-                // seed db 
                 .MigrateDatabase<OrderContext>((context, services) =>
                 {
                     var logger = services.GetService<ILogger<OrderContextSeed>>();

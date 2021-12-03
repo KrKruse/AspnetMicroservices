@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Ordering.Infrastructure.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class FirstMig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

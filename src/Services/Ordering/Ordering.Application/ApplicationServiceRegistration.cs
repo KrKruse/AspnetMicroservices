@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 
 namespace Ordering.Application
 {

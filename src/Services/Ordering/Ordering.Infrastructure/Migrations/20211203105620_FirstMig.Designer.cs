@@ -10,8 +10,8 @@ using Ordering.Infrastructure.Persistence;
 namespace Ordering.Infrastructure.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    [Migration("20211203054828_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211203105620_FirstMig")]
+    partial class FirstMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
