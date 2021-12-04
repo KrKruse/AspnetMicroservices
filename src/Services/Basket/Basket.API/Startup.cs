@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Basket.API.Repositories;
+using MassTransit;
 
 namespace Basket.API
 {
@@ -34,6 +35,21 @@ namespace Basket.API
 
             // injection af IBasketRepository - hvis programmet ser IBasketRepository vil den lave object igennem basketrepository 
             services.AddScoped<IBasketRepository, BasketRepository>();
+            //auto mapper for basketcheckoutevent 
+            services.AddAutoMapper(typeof(Startup));
+
+            // masstransit configuration og rabbitmq - med url som cennection == host - "EventBusSettings:HostAddress" er url som ligger i json filen ->
+            // til eventbus med henblik på checkoutbasket 
+            services.AddMassTransit(config =>
+            {
+                config.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(Configuration["EventBusSettings:HostAddress"]);
+                });
+            });
+
+            // service til start og stop af bus
+            services.AddMassTransitHostedService();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
