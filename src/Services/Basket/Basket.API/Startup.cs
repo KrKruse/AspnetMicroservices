@@ -10,7 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Basket.API.Entities;
 using Basket.API.Repositories;
+using EventBus.Messages.Common;
 using MassTransit;
 
 namespace Basket.API
@@ -39,7 +41,7 @@ namespace Basket.API
             services.AddAutoMapper(typeof(Startup));
 
             // masstransit configuration og rabbitmq - med url som cennection == host - "EventBusSettings:HostAddress" er url som ligger i json filen ->
-            // til eventbus med henblik på checkoutbasket 
+            // til eventbus med henblik på checkoutbasket - connection til rabbitmq 
             services.AddMassTransit(config =>
             {
                 config.UsingRabbitMq((ctx, cfg) =>

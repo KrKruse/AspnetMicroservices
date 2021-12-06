@@ -10,8 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MassTransit;
 using Ordering.Application;
 using Ordering.Infrastructure;
+using EventBus.Messages.Common;
+using Ordering.API.EventBusConsumer;
 
 namespace Ordering.API
 {
@@ -29,6 +32,31 @@ namespace Ordering.API
         {
             services.AddApplicationServices();
             services.AddInfrastructureServices(Configuration);
+
+            // masstransit configuration og rabbitmq - med url som cennection == host - "EventBusSettings:HostAddress" er url som ligger i json filen ->
+            // til eventbus - connection til rabbitmq - lavet om til consume/subsribe 
+            services.AddMassTransit(config =>
+            {
+                config.AddConsumer<BasketCheckoutConsumer>();
+
+                config.UsingRabbitMq((ctx, cfg) =>
+                {
+                    cfg.Host(Configuration["EventBusSettings:HostAddress"]);
+
+                    // subscribing busevent - parameter er queue navn og BasketCheckoutConsumer Klassen
+                    cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue, c =>
+                    {
+                        c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
+                    });
+                });
+            });
+
+            // service til start og stop af bus
+            services.AddMassTransitHostedService();
+            services.AddScoped<BasketCheckoutConsumer>();
+
+            // dependency injektion for mapping - mapping folder i ordering.api 
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
