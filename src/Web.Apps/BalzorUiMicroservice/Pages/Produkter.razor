@@ -1,0 +1,38 @@
+﻿@page "/Produkter"
+@inject ICatalogService CatalogService
+
+<h3>Produkter</h3>
+
+@if (ProductList == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Pris</th>
+        </tr>
+        </thead>
+        <tbody >
+        @foreach (var prod in ProductList)
+        {
+        <tr>
+            <td>@prod.Name</td>
+            <td>@prod.Price</td>
+        </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    public List<CatalogModel> ProductList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ProductList = (await CatalogService.GetCatalog()).ToList();
+    }
+}

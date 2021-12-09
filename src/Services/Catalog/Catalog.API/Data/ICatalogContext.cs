@@ -9,6 +9,7 @@ namespace Catalog.API.Data
 {
     public interface ICatalogContext
     {
+        // gemmer produkt collection 
         IMongoCollection<Product> Products { get; }
     }
 }
